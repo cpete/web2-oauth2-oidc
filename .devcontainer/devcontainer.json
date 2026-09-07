@@ -1,0 +1,11 @@
+{
+  "name": "OAuth2 and OIDC with Keycloak and different clients",
+  "dockerComposeFile": [
+    "../compose.yaml",
+    "docker-compose.extend.yaml"
+  ],
+  "service": "keycloak",
+  "workspaceFolder": "/workspaces/web2-oauth2-oidc",
+  "overrideCommand": false,
+  "shutdownAction": "stopCompose"
+}
