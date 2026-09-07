@@ -10,3 +10,17 @@ services:
     volumes:
       - .:/workspaces/web2-oauth2-oidc
       - ./auth/realm.json:/opt/keycloak/data/import/realm.json:ro
+
+  todo-api:
+    build: ./api
+    environment:
+      PORT: "3001"
+      # Issuer as it appears in the token (browser clients talk to localhost).
+      OIDC_ISSUER: http://localhost:8080/realms/workshop
+      # Signing keys are fetched over the Compose network, not via localhost.
+      OIDC_JWKS_URI: http://keycloak:8080/realms/workshop/protocol/openid-connect/certs
+      API_AUDIENCE: workshop-api
+    ports:
+      - "3001:3001"
+    depends_on:
+      - keycloak

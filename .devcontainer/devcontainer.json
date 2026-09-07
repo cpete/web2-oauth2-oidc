@@ -6,6 +6,13 @@
   ],
   "service": "keycloak",
   "workspaceFolder": "/workspaces/web2-oauth2-oidc",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "anthropic.claude-code"
+      ]
+    }
+  },
   "overrideCommand": false,
   "shutdownAction": "stopCompose"
 }
