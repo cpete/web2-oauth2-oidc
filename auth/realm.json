@@ -461,16 +461,6 @@
         "display.on.consent.screen": "true",
         "consent.screen.text": "Todos in Ihrem Namen anlegen und aendern"
       }
-    },
-    {
-      "name": "invoices.read",
-      "description": "Rechnungen lesen",
-      "protocol": "openid-connect",
-      "attributes": {
-        "include.in.token.scope": "true",
-        "display.on.consent.screen": "true",
-        "consent.screen.text": "Ihre Rechnungen einsehen"
-      }
     }
   ],
 
@@ -531,8 +521,7 @@
       ],
       "optionalClientScopes": [
         "todo.read",
-        "todo.write",
-        "invoices.read"
+        "todo.write"
       ]
     },
 
@@ -572,8 +561,7 @@
       ],
       "optionalClientScopes": [
         "todo.read",
-        "todo.write",
-        "invoices.read"
+        "todo.write"
       ]
     },
 
