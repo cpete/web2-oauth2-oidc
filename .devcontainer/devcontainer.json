@@ -1,10 +1,10 @@
 {
-  "name": "OAuth2 and OIDC with Keycloak and different clients",
+  "name": "OAuth2 client credentials sandbox",
   "dockerComposeFile": [
     "../compose.yaml",
     "docker-compose.extend.yaml"
   ],
-  "service": "keycloak",
+  "service": "client",
   "workspaceFolder": "/workspaces/web2-oauth2-oidc",
   "customizations": {
     "vscode": {

@@ -24,3 +24,20 @@ services:
       - "3001:3001"
     depends_on:
       - keycloak
+
+  # A curl + jq box for exercising the client credentials grant by hand.
+  # It stays running; open a shell with `docker compose exec client bash`, or
+  # run the guided walkthrough with `docker compose exec client client-credentials`.
+  client:
+    build: ./client
+    environment:
+      TOKEN_URL: http://keycloak:8080/realms/workshop/protocol/openid-connect/token
+      API_BASE: http://todo-api:3001
+      CLIENT_ID: worker
+      CLIENT_SECRET: dev-worker-secret-not-for-production
+      SCOPE: todo.read
+      # Mint tokens whose issuer matches what todo-api expects (see the script).
+      ISSUER_HOST: localhost:8080
+    depends_on:
+      - keycloak
+      - todo-api

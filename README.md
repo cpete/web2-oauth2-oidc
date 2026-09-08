@@ -18,3 +18,14 @@ username `admin` and password `admin`.
 Stop the service with `docker compose down`. Its data remains in the
 `keycloak-data` Docker volume; remove it with `docker compose down -v` when a
 fresh instance is needed.
+
+## Trying the client credentials flow
+
+The `client` Compose service is a `curl` + `jq` box on the Compose network:
+
+```sh
+docker compose up -d client
+docker compose exec client client-credentials
+```
+
+See [`client/README.md`](client/README.md) for details.
