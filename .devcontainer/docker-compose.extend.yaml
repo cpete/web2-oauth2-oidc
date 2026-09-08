@@ -1,11 +1,16 @@
-# Devcontainer-only override: build the keycloak image with tar/gzip added so
-# the VS Code Server can install into the container. Plain `docker compose up`
-# with the root compose.yaml is unaffected.
+# Devcontainer-only overrides for the `webapp` service:
+#   * build a dev image (node:22-alpine + git/bash/libstdc++) so the VS Code
+#     Server and everyday tooling work
+#   * mount the repo at the workspace folder
+#   * idle the container so VS Code owns the process instead of
+#     `node dist/server.js`
+# Plain `docker compose up` with the root compose.yaml is unaffected.
 services:
-  keycloak:
-    # context is resolved relative to the project directory (where compose.yaml
-    # lives), not this file.
+  webapp:
     build:
-      context: .
-      dockerfile: .devcontainer/Dockerfile
-    image: web2-oauth2-oidc-keycloak-dev
+      context: .devcontainer
+      dockerfile: webapp.Dockerfile
+    image: web2-oauth2-oidc-webapp-dev
+    command: sleep infinity
+    volumes:
+      - .:/workspaces/web2-oauth2-oidc:cached

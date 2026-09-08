@@ -1,10 +1,10 @@
 {
-  "name": "OAuth2 and OIDC with Keycloak and different clients",
+  "name": "OAuth2 / OIDC workshop — webapp",
   "dockerComposeFile": [
     "../compose.yaml",
     "docker-compose.extend.yaml"
   ],
-  "service": "keycloak",
+  "service": "webapp",
   "workspaceFolder": "/workspaces/web2-oauth2-oidc",
   "customizations": {
     "vscode": {
@@ -13,6 +13,7 @@
       ]
     }
   },
-  "overrideCommand": false,
+  "forwardPorts": [3000, 3001, 8080],
+  "postCreateCommand": "cd webapp && npm install",
   "shutdownAction": "stopCompose"
 }

@@ -5,6 +5,12 @@ services:
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      # Frontchannel URLs (issuer, authorization endpoint, logout) are pinned to
+      # this public URL so the token `iss` is stable no matter which host a
+      # client used. Backchannel calls (token, JWKS) are still accepted on the
+      # host they arrive on, e.g. http://keycloak:8080 from the Compose network.
+      KC_HOSTNAME: http://localhost:8080
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: "true"
     ports:
       - "8080:8080"
     volumes:
@@ -24,3 +30,28 @@ services:
       - "3001:3001"
     depends_on:
       - keycloak
+
+  webapp:
+    build: ./webapp
+    environment:
+      PORT: "3000"
+      # Public base URL as the browser sees it (redirect + post-logout target).
+      APP_BASE_URL: http://localhost:3000
+      # Discovery runs server-to-server over the Compose network. Keycloak's
+      # fixed frontend hostname keeps the discovered issuer / authorization /
+      # logout URLs on http://localhost:8080 for the browser.
+      OIDC_DISCOVERY_URL: http://keycloak:8080/realms/workshop/.well-known/openid-configuration
+      OIDC_CLIENT_ID: webapp
+      OIDC_CLIENT_SECRET: dev-secret-not-for-production
+      OIDC_REDIRECT_URI: http://localhost:3000/callback
+      # `openid` makes this an OIDC request (ID token + claims); the rest are the
+      # profile claims and the two resource-server scopes for the todo API.
+      OIDC_SCOPE: "openid profile email todo.read todo.write"
+      # The todo resource server, reachable inside the Compose network.
+      API_BASE_URL: http://todo-api:3001
+      SESSION_SECRET: dev-session-secret-not-for-production
+    ports:
+      - "3000:3000"
+    depends_on:
+      - keycloak
+      - todo-api
